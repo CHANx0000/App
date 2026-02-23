@@ -1,0 +1,15 @@
+<div class="input-form-container">
+  <input
+    type="text"
+    [value]="inputText()"
+    (input)="updateInput($event)"
+    placeholder="Enter text here..."
+    class="input-field"
+  />
+  <button
+    (click)="onSubmit()"
+    class="submit-button"
+  >
+    Submit
+  </button>
+</div>
