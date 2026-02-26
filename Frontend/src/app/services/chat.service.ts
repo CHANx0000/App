@@ -1,15 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
+import { ChatMessage, ChatResponse } from '../shared/models/chat.model';
 
-export interface ChatMessage {
-  role: 'user' | 'assistant';
-  content: string;
-}
-
-export interface ChatResponse {
-  message: string;
-}
+export type { ChatMessage, ChatResponse };
 
 @Injectable({ providedIn: 'root' })
 export class ChatService {

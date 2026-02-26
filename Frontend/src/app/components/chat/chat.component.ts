@@ -2,13 +2,7 @@ import { Component, signal, ViewChild, ElementRef, AfterViewChecked } from '@ang
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ChatService, ChatMessage } from '../../services/chat.service';
-
-interface Message {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp: Date;
-}
+import { Message } from '../../shared/models/chat.model';
 
 const INITIAL_MESSAGE: Message = {
   id: '0',
@@ -20,8 +14,8 @@ const INITIAL_MESSAGE: Message = {
 @Component({
   selector: 'app-chat',
   imports: [FormsModule, DatePipe],
-  templateUrl: './chat.html',
-  styleUrl: './chat.scss',
+  templateUrl: './chat.component.html',
+  styleUrl: './chat.component.scss',
 })
 export class ChatComponent implements AfterViewChecked {
   @ViewChild('messagesEnd') messagesEnd!: ElementRef;
