@@ -14,8 +14,8 @@ const INITIAL_MESSAGE: Message = {
 @Component({
   selector: 'app-chat',
   imports: [FormsModule, DatePipe],
-  templateUrl: './chat.html',
-  styleUrl: './chat.scss',
+  templateUrl: './chat.component.html',
+  styleUrl: './chat.component.scss',
 })
 export class ChatComponent implements AfterViewChecked {
   @ViewChild('messagesEnd') messagesEnd!: ElementRef;

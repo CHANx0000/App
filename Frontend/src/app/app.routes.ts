@@ -1,9 +1,15 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home';
-import { ChatComponent } from './pages/chat/chat';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'chat', component: ChatComponent },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./components/home/home.component').then(m => m.HomeComponent),
+  },
+  {
+    path: 'chat',
+    loadComponent: () =>
+      import('./components/chat/chat.component').then(m => m.ChatComponent),
+  },
   { path: '**', redirectTo: '' },
 ];

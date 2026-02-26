@@ -5,8 +5,8 @@ import { ApiService } from '../../services/api.service';
 @Component({
   selector: 'app-home',
   imports: [RouterLink],
-  templateUrl: './home.html',
-  styleUrl: './home.scss',
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
   apiConnected = signal<boolean | null>(null);

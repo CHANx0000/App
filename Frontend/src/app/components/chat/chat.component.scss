@@ -1,3 +1,11 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
 $blue: #3b82f6;
 $blue-hover: #2563eb;
 $text-primary: #0f172a;
