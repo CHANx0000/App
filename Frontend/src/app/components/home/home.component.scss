@@ -67,7 +67,7 @@ $border: #e2e8f0;
 // ─── Cards ───────────────────────────────────────────
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
 
@@ -143,6 +143,11 @@ $border: #e2e8f0;
     color: $blue;
   }
 
+  &--user-form .card-icon {
+    background: #f0fdf4;
+    color: #22c55e;
+  }
+
   &--tools .card-icon {
     background: #f5f3ff;
     color: #8b5cf6;
@@ -182,12 +187,6 @@ $border: #e2e8f0;
 }
 
 // ─── Responsive ──────────────────────────────────────
-@media (max-width: 960px) {
-  .cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 @media (max-width: 640px) {
   .home {
     padding: 24px 20px;

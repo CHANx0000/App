@@ -11,5 +11,10 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/chat/chat.component').then(m => m.ChatComponent),
   },
+  {
+    path: 'user-form',
+    loadComponent: () =>
+      import('./components/user-form/user-form').then(m => m.UserForm),
+  },
   { path: '**', redirectTo: '' },
 ];

@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from routers import chat
+from routers import user
 
 app = FastAPI(title="AI Studio API", version="1.0.0")
 
@@ -14,6 +15,7 @@ app.add_middleware(
 )
 
 app.include_router(chat.router)
+app.include_router(user.router)
 
 
 @app.get("/")
