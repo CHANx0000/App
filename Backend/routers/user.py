@@ -1,11 +1,9 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-router = APIRouter(prefix="/api", tags=["users"])
+from db import get_connection
 
-# ── In-memory store ───────────────────────────────────────────────────────────
-_users: list[dict] = []
-_next_id = 1
+router = APIRouter(prefix="/api", tags=["users"])
 
 
 # ── Pydantic models ───────────────────────────────────────────────────────────
@@ -29,7 +27,6 @@ class UsersListResponse(BaseModel):
 # ── Endpoints ─────────────────────────────────────────────────────────────────
 @router.post("/users", response_model=UserRecord, status_code=201)
 def create_user(request: UserCreateRequest):
-    global _next_id
     if not request.name.strip():
         raise HTTPException(status_code=422, detail="Name cannot be empty.")
     if request.age < 0 or request.age > 150:
@@ -37,17 +34,21 @@ def create_user(request: UserCreateRequest):
     if request.gender not in ("male", "female", "other"):
         raise HTTPException(status_code=422, detail="Gender must be male, female, or other.")
 
-    record = {
-        "id": _next_id,
-        "name": request.name.strip(),
-        "age": request.age,
-        "gender": request.gender,
-    }
-    _users.append(record)
-    _next_id += 1
-    return record
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                "INSERT INTO users (name, age, gender) VALUES (%s, %s, %s) RETURNING id, name, age, gender",
+                (request.name.strip(), request.age, request.gender),
+            )
+            row = cur.fetchone()
+        conn.commit()
+    return dict(row)
 
 
 @router.get("/users", response_model=UsersListResponse)
 def list_users():
-    return UsersListResponse(users=_users)
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT id, name, age, gender FROM users ORDER BY id")
+            rows = cur.fetchall()
+    return UsersListResponse(users=[dict(r) for r in rows])
