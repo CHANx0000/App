@@ -1,0 +1,17 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
+GROQ_MODEL: str = os.getenv("GROQ_MODEL", "openai/gpt-oss-20b")
+SYSTEM_PROMPT: str = os.getenv(
+    "SYSTEM_PROMPT",
+    "You are a helpful AI assistant. Be concise and clear.",
+)
+DATABASE_URL: str = os.getenv("DATABASE_URL", "")
+
+if not GROQ_API_KEY:
+    raise EnvironmentError("GROQ_API_KEY is not set. Add it to your .env file.")
+if not DATABASE_URL:
+    raise EnvironmentError("DATABASE_URL is not set. Add it to your .env file.")

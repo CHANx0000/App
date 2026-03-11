@@ -1,0 +1,87 @@
+<div class="chat-page">
+  <!-- Header -->
+  <header class="chat-header">
+    <div class="chat-header-left">
+      <div class="ai-avatar-sm">AI</div>
+      <div>
+        <h2 class="chat-title">AI Assistant</h2>
+        <span class="chat-status">
+          <span class="status-dot"></span>
+          Ready
+        </span>
+      </div>
+    </div>
+    <button class="btn-new-chat" (click)="clearChat()">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
+      </svg>
+      New Chat
+    </button>
+  </header>
+
+  <!-- Messages -->
+  <div class="messages-container">
+    @for (message of messages(); track message.id) {
+      <div class="message-row" [class.user-row]="message.role === 'user'">
+        @if (message.role === 'assistant') {
+          <div class="avatar ai-avatar">AI</div>
+        }
+
+        <div
+          class="message"
+          [class.user-message]="message.role === 'user'"
+          [class.assistant-message]="message.role === 'assistant'"
+        >
+          <p class="message-content">{{ message.content }}</p>
+          <span class="message-time">{{ message.timestamp | date: 'shortTime' }}</span>
+        </div>
+
+        @if (message.role === 'user') {
+          <div class="avatar user-avatar">You</div>
+        }
+      </div>
+    }
+
+    <!-- Typing indicator -->
+    @if (isLoading()) {
+      <div class="message-row">
+        <div class="avatar ai-avatar">AI</div>
+        <div class="assistant-message typing-bubble">
+          <div class="typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    }
+
+    <div #messagesEnd></div>
+  </div>
+
+  <!-- Input -->
+  <div class="input-area">
+    <div class="input-wrapper">
+      <textarea
+        [(ngModel)]="inputText"
+        (keydown)="onKeydown($event)"
+        (input)="autoResize($event)"
+        placeholder="Message AI Assistant… (Enter to send, Shift+Enter for new line)"
+        class="chat-input"
+        rows="1"
+        [disabled]="isLoading()"
+      ></textarea>
+      <button
+        class="send-btn"
+        (click)="sendMessage()"
+        [disabled]="!inputText.trim() || isLoading()"
+        title="Send message"
+      >
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+        </svg>
+      </button>
+    </div>
+    <p class="input-hint">AI can make mistakes. Verify important information.</p>
+  </div>
+</div>
