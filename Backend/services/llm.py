@@ -24,8 +24,39 @@ tools = [
       },
     }
   },
-
+  {
+    "type": "function",
+    "function": {
+      "name": "get_current_time",
+      "description": "Get the current time in a given location",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string",
+            "description": "The city and state, e.g. San Francisco, CA",
+          },
+        },
+        "required": ["location"],
+      },
+    }
+  }
 ]
+
+def get_current_time(location: str) -> str:
+    """Get the current time in a given location"""
+
+    print()
+    print(f"[5] TOOL DEF | get_current_time() called with location='{location}'")
+    print()
+
+    result = f"The current time in {location} is 3:45 PM."
+
+    print()
+    print(f"[6] TOOL DEF → LLM SERVICE | Tool result: '{result}'")
+    print()
+
+    return result
 
 def get_current_weather(location: str, unit: str = "fahrenheit") -> str:
     """Get the current weather in a given location"""
@@ -107,9 +138,11 @@ async def chat_completion(message: str, history: list[dict]) -> str:
                     location=args["location"],
                     unit=args.get("unit", "fahrenheit"),
                 )
+            elif tool_call.function.name == "get_current_time":
+                result = get_current_time(location=args["location"])
             else:
                 result = f"Unknown tool: {tool_call.function.name}"
-
+            print(result)
             messages.append({
                 "role": "tool",
                 "tool_call_id": tool_call.id,
